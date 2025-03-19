@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Navbar from "@/components/Navbar";
 import { eventService } from "@/services/eventService";
+import { Event } from "@/hooks/use-events";
 
 const eventSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters" }),
@@ -59,10 +60,13 @@ const AddEvent = () => {
         return;
       }
 
-      await eventService.createEvent({
+      // Include the featured property with the form values
+      const eventData: Omit<Event, "id"> = {
         ...values,
-        featured: false,
-      });
+        featured: false
+      };
+
+      await eventService.createEvent(eventData);
 
       toast({
         title: "Event Created",
