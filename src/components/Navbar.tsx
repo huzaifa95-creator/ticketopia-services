@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Navbar = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Will be replaced with auth context
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const navigateToLogin = () => {
     navigate("/login");
@@ -24,8 +32,10 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // Will be replaced with auth logic
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
+    navigate("/");
   };
 
   const NavLinks = () => (
@@ -37,9 +47,14 @@ const Navbar = () => {
         Events
       </Link>
       {isLoggedIn && (
-        <Link to="/my-bookings" className="font-medium transition-colors hover:text-primary">
-          My Bookings
-        </Link>
+        <>
+          <Link to="/my-bookings" className="font-medium transition-colors hover:text-primary">
+            My Bookings
+          </Link>
+          <Link to="/add-event" className="font-medium transition-colors hover:text-primary">
+            Add Event
+          </Link>
+        </>
       )}
     </>
   );

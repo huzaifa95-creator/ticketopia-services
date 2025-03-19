@@ -10,6 +10,7 @@ import EventDetail from "./pages/EventDetail";
 import Auth from "./pages/Auth";
 import MyBookings from "./pages/MyBookings";
 import NotFound from "./pages/NotFound";
+import AddEvent from "./pages/AddEvent";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/login" element={<Auth />} />
           <Route path="/signup" element={<Auth />} />
           <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/add-event" element={<AddEvent />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
